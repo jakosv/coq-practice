@@ -16,6 +16,8 @@ Proof.
   - simpl. rewrite IHn'. reflexivity.
 Qed.
 
+Print minus_n_n.
+
 Theorem mul_0_r : forall n : nat,
   n * 0 = 0.
 Proof.
@@ -127,9 +129,42 @@ Proof.
   rewrite H. rewrite add_assoc. simpl. reflexivity.
 Qed.
 
+Theorem mult_n_0: forall n : nat,
+  n * 0 = 0.
+Proof.
+  intros n. induction n as [|n' IHn'].
+  - reflexivity.
+  - simpl. rewrite IHn'. reflexivity.
+Qed.
+
+Theorem plus_one_assoc: forall n m : nat,
+  S (n + m) = S n + m.
+Proof.
+  intros n m. simpl. reflexivity.
+Qed.
+
+
+Theorem mult_distrub: forall n m : nat,
+  n * S m = n * m + n.
+Proof.
+  intros n m. induction n as [|n' IHn'].
+  - simpl. reflexivity.
+  - simpl. rewrite IHn'. rewrite add_assoc. rewrite add_comm.
+    rewrite plus_one_assoc. rewrite add_comm. simpl. reflexivity.
+Qed.
+
+Theorem mult_left_distrub: forall n m : nat,
+  S n * m = n * m + m.
+Proof.
+  intros n m. simpl. rewrite add_comm. reflexivity.
+Qed.
+
 Theorem mul_comm : forall m n : nat,
   m * n = n * m.
 Proof.
-Admitted.
-
-
+  intros n m.
+  induction n as [|n' IHn'].
+  - simpl. rewrite mult_n_0. reflexivity.
+  - simpl. rewrite IHn'. rewrite add_comm. rewrite mult_distrub.
+    rewrite add_comm. reflexivity.
+Qed.
